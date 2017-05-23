@@ -12,7 +12,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
-	"github.com/tmitz/echo/cookbook/twitter2/handler"
+	"github.com/tmitz/twitter-like-api-echo-mysql/handler"
 )
 
 var db *sqlx.DB

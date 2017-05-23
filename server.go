@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
-	"github.com/tmitz/echo/cookbook/twitter2/handler"
+	"github.com/tmitz/twitter-like-api-echo-mysql/handler"
 )
 
 func main() {

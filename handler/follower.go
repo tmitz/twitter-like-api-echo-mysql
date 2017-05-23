@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/tmitz/echo/cookbook/twitter2/model"
+	"github.com/tmitz/twitter-like-api-echo-mysql/model/"
 )
 
 func (h *Handler) Follow(c echo.Context) (err error) {
