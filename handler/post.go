@@ -20,12 +20,11 @@ func (h *Handler) CreatePost(c echo.Context) (err error) {
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "invalid receive_id or send_id fields"}
 	}
 
-	db := h.DB
-	if err = db.Get(u, "SELECT * FROM users WHERE id=? LIMIT 1", u.ID); err != nil {
+	if err = h.DB.Get(u, "SELECT * FROM users WHERE id=? LIMIT 1", u.ID); err != nil {
 		return echo.ErrNotFound
 	}
 
-	tx := db.MustBegin()
+	tx := h.DB.MustBegin()
 	_, err = tx.NamedExec("INSERT INTO posts (receive_id, send_id, message) VALUES (:receive_id, :send_id, :message)", p)
 	if err != nil {
 		return
@@ -55,8 +54,7 @@ func (h *Handler) FetchPost(c echo.Context) (err error) {
 	}
 
 	posts := []*model.Post{}
-	db := h.DB
-	if err = db.Select(posts, "SELECT * from posts WHERE receive_id = ? LIMIT ? OFFSET ?", userID, limit, (page-1)*limit); err != nil {
+	if err = h.DB.Select(posts, "SELECT * from posts WHERE receive_id = ? LIMIT ? OFFSET ?", userID, limit, (page-1)*limit); err != nil {
 		return
 	}
 

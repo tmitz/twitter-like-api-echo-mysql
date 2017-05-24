@@ -21,8 +21,7 @@ func (h *Handler) Signup(c echo.Context) (err error) {
 		return &echo.HTTPError{Code: http.StatusBadRequest, Message: "invalid email or password"}
 	}
 
-	db := h.DB
-	tx := db.MustBegin()
+	tx := h.DB.MustBegin()
 	_, err = tx.NamedExec("INSERT INTO users (email, password) VALUES (:email, :password)", u)
 	if err != nil {
 		return
@@ -39,9 +38,8 @@ func (h *Handler) Login(c echo.Context) (err error) {
 		return
 	}
 
-	db := h.DB
-	// defer db.Close()
-	if err = db.Get(u, "SELECT id, email, password, token FROM users WHERE email=? AND password=? LIMIT 1", u.Email, u.Password); err != nil {
+	// Select
+	if err = h.DB.Get(u, "SELECT id, email, password, token FROM users WHERE email=? AND password=? LIMIT 1", u.Email, u.Password); err != nil {
 		return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
 	}
 
