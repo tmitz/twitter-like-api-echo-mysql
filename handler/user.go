@@ -2,7 +2,6 @@ package handler
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -40,16 +39,11 @@ func (h *Handler) Login(c echo.Context) (err error) {
 		return
 	}
 
-	fmt.Println(u)
-
 	db := h.DB
 	// defer db.Close()
 	if err = db.Get(u, "SELECT id, email, password, token FROM users WHERE email=? AND password=? LIMIT 1", u.Email, u.Password); err != nil {
-		fmt.Println(err)
 		return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
 	}
-
-	fmt.Println(u)
 
 	//-----
 	// JWT
