@@ -30,7 +30,18 @@ func TestSignup(t *testing.T) {
 	}
 }
 
-// func TestLogin(t *testing.T) {
-// 	e := echo.New()
-// 	req := httptest.NewRequest(echo.POST, "/login", strings)
-// }
+func TestLogin(t *testing.T) {
+	e := echo.New()
+	req := httptest.NewRequest(echo.POST, "/login", strings.NewReader(userJSON))
+	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(req, rec)
+	h := &handler.Handler{DB: db}
+	err := h.Login(c)
+	if err != nil {
+		t.Errorf("Login endpoint error: %s", err)
+	}
+	if http.StatusOK != rec.Code {
+		t.Errorf("Invalid http status code: %d, got: %d", rec.Code, http.StatusOK)
+	}
+}

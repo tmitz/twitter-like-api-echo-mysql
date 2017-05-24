@@ -36,5 +36,13 @@ func TestMain(m *testing.M) {
 	}
 	db.MustExec("SET FOREIGN_KEY_CHECKS = 1")
 
+	db.MustExec(
+		"INSERT INTO users (id, email, password) VALUES (1, ?, ?), (2, ?, ?)",
+		"abc@example.com",
+		"foofoo",
+		"xyz@example.com",
+		"barbar",
+	)
+
 	os.Exit(m.Run())
 }

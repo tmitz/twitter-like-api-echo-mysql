@@ -37,7 +37,6 @@ func (h *Handler) Login(c echo.Context) (err error) {
 	if err = c.Bind(u); err != nil {
 		return
 	}
-
 	// Select
 	if err = h.DB.Get(u, "SELECT id, email, password, token FROM users WHERE email=? AND password=? LIMIT 1", u.Email, u.Password); err != nil {
 		return &echo.HTTPError{Code: http.StatusUnauthorized, Message: "invalid email or password"}
